@@ -1,20 +1,103 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Forms Reactive
+      </h1>
+      <form name="formsRaect" [formGroup]="formsRaect" (submit)="reactForm(formsRaect)">
+        <div class="form-group">
+          <label>
+            Employee Name
+          </label>
+          <input type="text" name="empname" formControlName="empname" [(ngModel)]="emp.empname" class="form-control"
+            required>
+          <p *ngIf="formsRaect.get('empname').invalid && formsRaect.get('empname').touched" class="red">
 
+            <span *ngIf="formsRaect.get('empname').hasError('required')">
+              This is required.
+            </span>
+            <span *ngIf="formsRaect.get('empname').hasError('invalidStr')">
+              Invalid string.
+            </span>
+          </p>
+        </div>
+        <div class="form-group">
+          <label>
+            Employee Date Of Birth
+          </label>
+          <input type="date" name="dob" [max]="myDate" formControlName="dob" [(ngModel)]="emp.dob" class="form-control"
+            required>
+          <p *ngIf="formsRaect.get('dob').invalid && formsRaect.get('dob').touched" class="red">This is
+            required.</p>
+        </div>
+        <div class="form-group">
+          <label>
+            Employee Salary
+          </label>
+          <input type="text" name="salary" formControlName="salary" [(ngModel)]="emp.salary" class="form-control"
+            required>
+          <p *ngIf="formsRaect.get('salary').invalid && formsRaect.get('salary').touched" class="red">This is required.
+          </p>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">submit</button>
+        </div>
+      </form>
+
+    </div>
+
+    <div class="col-md-6">
+      <h1>Template Driven</h1>
+      <form name="testForm1" #testform1="ngForm" (submit)="addEmp(testform1)">
+        <div class="form-group">
+          <label>
+            Employee Name
+          </label>
+          <input type="text" name="empname" [(ngModel)]="empname2" #empname="ngModel" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>
+            Employee Salary
+          </label>
+          <input type="text" name="salary" [(ngModel)]="salary2" #salary="ngModel" class="form-control">
+        </div>
+        <div class="form-group" *ngIf="!imagePreview">
+          <label>Upload profile Pic</label>
+          <input type="file" name="profpic" (change)="getImage($event)" class="form-control">
+        </div>
+        <div class="form-group" *ngIf="imagePreview" style="position: relative;">
+          <label>Uploaded profile Pic</label>
+          <div (click)="removeImage()"
+            style="cursor:pointer; border:1px solid red; border-radius: 50%; position: absolute;top: 0;right: 0;">X
+          </div>
+          <img [src]="imagePreview" alt="" style="max-width: 100%; max-height: 200px">
+
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">submit</button>
+        </div>
+      </form>
+      <h1>{{msg}}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="btn">Employee Data</h1>
+      <table class="table table-stripped">
+        <tr>
+          <th>Employee Name</th>
+          <th>Employee Salary</th>
+          <th>Profile Image</th>
+          <th>Delete</th>
+        </tr>
+        <tr *ngFor="let empData of empData | orderBy: ''">
+          <td>{{empData.employee_name}}</td>
+          <td>{{empData.employee_salary}}</td>
+          <td><img src="../assets/images/1f331.png" alt=""></td>
+          <td (click)="updateEmp(empData)" class="btn btn-link" style="cursor: pointer;">Update</td>
+          <td (click)="deleteEmp(empData.id)" class="btn btn-link" style="cursor: pointer;">Delete</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
