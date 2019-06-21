@@ -1,6 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
+      <button class="btn btn-primary" (click)="navigateByUrl()">Observeable Example</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
       <h1>Forms Reactive
       </h1>
       <form name="formsRaect" [formGroup]="formsRaect" (submit)="reactForm(formsRaect)">
@@ -83,21 +95,23 @@
   <div class="row">
     <div class="col-md-12">
       <h1 class="btn">Employee Data</h1>
-      <table class="table table-stripped">
-        <tr>
-          <th>Employee Name</th>
-          <th>Employee Salary</th>
-          <th>Profile Image</th>
-          <th>Delete</th>
-        </tr>
-        <tr *ngFor="let empData of empData | orderBy: ''">
-          <td>{{empData.employee_name}}</td>
-          <td>{{empData.employee_salary}}</td>
-          <td><img src="../assets/images/1f331.png" alt=""></td>
-          <td (click)="updateEmp(empData)" class="btn btn-link" style="cursor: pointer;">Update</td>
-          <td (click)="deleteEmp(empData.id)" class="btn btn-link" style="cursor: pointer;">Delete</td>
-        </tr>
-      </table>
+      <cdk-virtual-scroll-viewport itemSize="5" style="height: 300px;">
+        <table class="table table-stripped">
+          <tr>
+            <th>Employee Name</th>
+            <th>Employee Salary</th>
+            <th>Profile Image</th>
+            <th>Delete</th>
+          </tr>
+          <tr *cdkVirtualFor="let empData of empData | orderBy: ''">
+            <td>{{empData.employee_name}}</td>
+            <td>{{empData.employee_salary}}</td>
+            <td><img src="../assets/images/1f331.png" alt=""></td>
+            <td (click)="updateEmp(empData)" class="btn btn-link" style="cursor: pointer;">Update</td>
+            <td (click)="deleteEmp(empData.id)" class="btn btn-link" style="cursor: pointer;">Delete</td>
+          </tr>
+        </table>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 </div>

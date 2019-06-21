@@ -3,6 +3,7 @@ import { EmployeeService } from './employee.service';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidateNumbers, DateValidators, stringValidators } from './validators/number.validator';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import * as moment from 'moment';
   animations: []
 })
 export class AppComponent implements OnInit {
-  constructor(private empService: EmployeeService) { }
+  constructor(private empService: EmployeeService, private router: Router) { }
   empData: any;
   empname2: string;
   salary2: string;
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
   getEmp() {
     this.empService.getEmployeeData().subscribe((resp) => {
       this.empData = resp;
-      this.empData = this.empData.slice(0, 10);
+      this.empData = this.empData/* .slice(0, 10) */;
       console.log(this.empData);
     });
   }
@@ -93,5 +94,8 @@ export class AppComponent implements OnInit {
   }
   removeImage() {
     this.imagePreview = '';
+  }
+  navigateByUrl() {
+    this.router.navigateByUrl('/observeableExample');
   }
 }
